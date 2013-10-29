@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1383007029 source:/home/zack/Trees/Trees.cpp
+
+1383007165 source:/home/zack/Trees/Main.cpp
+	<iostream>
+
