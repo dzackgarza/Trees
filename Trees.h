@@ -12,26 +12,60 @@
 
 /** Class Invariants **/
 
-class Tree {
+class BSTree {
     struct node
     {
         node* parent;
         node* left_child;
         node* right_child;
-        ItemType data;
+        Record data;
     };
     node* root;
 
     public:
 
-    Tree( void );
-    ~Tree();
-    bool isEmpty();
-    unsigned depth();
-    ItemType getItem();
-    void Delete (node*);
-    void Add();
-    void Print();
+    // Pre:  None
+    // Post: An empty BSTree is created.
+    BSTree ( void );
 
+    // Pre:  None
+    // Post: The BSTress is destroyed and all allocated memory is released.
+    ~BSTree ();
+
+    // Pre: None
+    // Post: RETVAL == True if Tree is empty
+    bool isEmpty() const;
+
+    // Pre:  !IsEmpty()
+    // Post: RETVAL == Record item with this key. If the key is not in the tree,
+    //       returns an "empty" Record.
+    Record Find (const KeyType& key) const;
+
+    // Pre:  None
+    // Post: The Record is inserted into the BSTree in its proper place.
+    //       If the tree already contains this key, does noting.
+    //       Structure: Left Child < Parent <= Right Child
+    void Insert (const Record&);
+
+    // Pre:  !IsEmpty()
+    // Post: BSTree is traversed in order and function is appled to each node.
+    void InOrderTraversal ( void (*) (const Record&));
+
+    // Pre:  !IsEmpty()
+    // Post: BSTree is traversed pre-order and the function is appled to each node.
+    void PreOrderTraversal ( void (*) (const Record&));
+
+    // Pre:  !IsEmpty()
+    // Post: BSTree is traversed post-order and function is applied to each node.
+    void PostOrderTraversal ( void (*) (const Record&));
+
+    // Pre: !IsEmpty()
+    // Post: RETVAL == Depth of Tree, ie distance between root and furthest node.
+    unsigned Depth ( void ) const;
+
+    // Pre:  !IsEmpty()
+    // Post: Record with this key is deleted and the tree is still a Binary Search Tree.
+    //       If key is not in the tree, does nothing.
+    void Delete (cost KeyType& key);
 }
 #endif

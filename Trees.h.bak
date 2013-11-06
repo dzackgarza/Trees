@@ -8,7 +8,34 @@
 *****************************************************/
 #ifndef TREES_H
 #define TREES_H
+#define ItemTpye int
 
+/** Class Invariants **/
 
+class BSTree {
+    struct node
+    {
+        node* parent;
+        node* left_child;
+        node* right_child;
+        Record data;
+    };
+    node* root;
 
+    public:
+    
+    // Pre: None
+    // Post: 
+    BSTree ( void );
+    ~BSTree ();
+    bool isEmpty() const;
+    Record Find (const KeyType& key) const;
+    void Insert (const Record&);
+    void InOrderTraversal ( void (*) (const Record&));
+    void PreOrderTraversal ( void (*) (const Record&));
+    void PostOrderTraversal ( void (*) (const Record&));
+    unsigned Depth ( void ) const;
+    void Delete (cost KeyType& key);
+
+}
 #endif
