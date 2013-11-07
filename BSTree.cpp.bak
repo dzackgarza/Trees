@@ -147,19 +147,11 @@ unsigned BSTree::Depth ( void ) const
 {
     if ( IsEmpty() ) return 0;
     else return Depth(root);
-}
 
-unsigned BSTree::Depth(node* current) const
+}
+unsigned Depth(node* current)
 {
-    if (current == NULL) return 0;
-    else
-    {
-        int left_depth = Depth(current->left_child);
-        int right_depth = Depth(current->right_child);
-        return ( (left_depth > right_depth) ? left_depth + 1 : right_depth + 1 );
-    }
 }
-
 // Extra Credit.
 void BSTree::Delete (const KeyType& key)
 {

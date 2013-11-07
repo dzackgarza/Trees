@@ -2,3 +2,10 @@
 1383007165 source:/home/zack/BSTree/Main.cpp
 	<iostream>
 
+1383784671 source:/home/zack/BSTree/BSTree.cpp
+	"BSTree.h"
+	<iostream>
+
+1383784729 /home/zack/BSTree/BSTree.h
+	<stddef.h>
+

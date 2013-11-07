@@ -88,8 +88,5 @@ class BSTree {
 
     void PreOrderTraversal ( void (*) (const Record&), node*);
 
-    void PostOrderTraversal ( void (*) (const Record&), node*);
-
-    unsigned Depth(node*) const;
 };
 #endif
