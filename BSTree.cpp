@@ -50,17 +50,16 @@ Record BSTree::Find(const KeyType& key, node* current ) const
 {
     if (current != NULL)
     {
-        if (current->data == key)           // Found
+        if (current->data.Key() == key)           // Found
             return current->data;
-        else if (current->data < key)       // Continue left
+        else if (current->data.Key() < key)       // Continue left
             return Find(key, current->left_child);
         else    // current->data >= key     // Continue right
             return Find(key, current->right_child);
     }
-    // Key not found, return an empty record.
-    // #TODO: Maybe?
+    // Key not found, return an error record.
     else
-        return NULL;
+        return Record("KEY NOT FOUND", "KNF");
 }
 
 // Public Insert

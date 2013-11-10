@@ -8,9 +8,11 @@
 *****************************************************/
 #ifndef TREES_H
 #define TREES_H
-#define Record int
-#define KeyType int
+//#define Record STRING
+//#define KeyType STRING
 #include <stddef.h>
+#include "MYSTRING.h"
+#include "Record.h"
 
 /** Class Invariants
  *
