@@ -1,3 +1,4 @@
+/** Credit: David Fox **/
 
 #include "Record.h"
 

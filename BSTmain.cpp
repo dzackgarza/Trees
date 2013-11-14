@@ -1,3 +1,5 @@
+/** Credit: David Fox **/
+:
 #include <cstdlib>
 #include <iostream>
 #include <fstream>

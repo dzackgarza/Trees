@@ -1,3 +1,5 @@
+/** Credit: David Fox **/
+
 #ifndef MY_RECORD_CLASS_DEF_
 #define MY_RECORD_CLASS_DEF_
 #include <iostream>
