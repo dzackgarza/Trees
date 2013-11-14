@@ -2,13 +2,13 @@
 
     Zack Garza
     CISP 430 - TTH 5:30 pm
-    Programming Project 5 - Trees
+    Programming Project 5 - Binary Search Tree
     28 October 2013
 
 *****************************************************/
 
 #include "BSTree.h"
-#include <iostream>
+
 using namespace std;
 
 bool BSTree::IsEmpty() const
@@ -24,42 +24,19 @@ BSTree::BSTree ( void )
 // Public Delete
 BSTree::~BSTree ()
 {
-    Delete_tree(root);
+    _Destroy(root);
 }
 
-// Private Delete
-// Traverses tree, recursively deleting left, then right, then parent leaves.
-void BSTree::Delete_tree (node* current)
+unsigned BSTree::Depth ( void ) const
 {
-    if (current != NULL)
-    {
-        Delete_tree(current->left_child);
-        Delete_tree(current->right_child);
-        delete current;
-    }
+    if ( IsEmpty() ) return 0;
+    else return _Depth(root);
 }
 
 // Public Find
 Record BSTree::Find (const KeyType& key) const
 {
-    return Find(key, root);
-}
-
-// Recursively traverse the tree until key is found, return NULL if not found.
-Record BSTree::Find(const KeyType& key, node* current ) const
-{
-    if (current != NULL)
-    {
-        if (current->data.Key() == key)           // Found
-            return current->data;
-        else if (current->data.Key() < key)       // Continue left
-            return Find(key, current->left_child);
-        else    // current->data >= key     // Continue right
-            return Find(key, current->right_child);
-    }
-    // Key not found, return an error record.
-    else
-        return Record("KEY NOT FOUND", "KNF");
+    return _Find(key, root);
 }
 
 // Public Insert
@@ -67,14 +44,63 @@ Record BSTree::Find(const KeyType& key, node* current ) const
 void BSTree::Insert( const Record& rec)
 {
     if (root != NULL)   // Tree has already been established.
-        Insert(rec, root);
+        _Insert(rec, root);
     else                // Root node has not been created - current node is new root.
         root = new node(rec);
 }
 
+void BSTree::InOrderTraversal ( void (*operate) (const Record&))
+{
+    if ( !IsEmpty() )
+        _InOrderTraversal( operate, root);
+}
+
+void BSTree::PreOrderTraversal ( void (*operate) (const Record&))
+{
+    if ( !IsEmpty() )
+        _PreOrderTraversal(operate, root);
+}
+
+void BSTree::PostOrderTraversal ( void (*operate) (const Record&))
+{
+    if ( !IsEmpty() )
+        _PostOrderTraversal(operate, root);
+}
+
+/** Private Functions **/
+/*********************************************/
+
+// Private Delete
+// Traverses tree, recursively deleting left, then right, then parent leaves.
+void BSTree::_Destroy (node* current)
+{
+    if (current != NULL)
+    {
+        _Destroy(current->left_child);
+        _Destroy(current->right_child);
+        delete current;
+    }
+}
+
+// Recursively traverse the tree until key is found, return NULL if not found.
+Record BSTree::_Find(const KeyType& key, node* current ) const
+{
+    if (current == NULL)
+        return Record("KNF", "KEY NOT FOUND");
+    else
+    {
+        if (current->data.Key() == key)             // Found
+            return current->data;
+        else if (key < current->data.Key())         // Continue right
+            return _Find(key, current->left_child);
+        else    //key >= current                    // Continue left
+            return _Find(key, current->right_child);
+    }
+}
+
 // Private Insert
 // Recursively traverses tree and places record.
-void BSTree::Insert( const Record& rec, node* current)
+void BSTree::_Insert( const Record& rec, node* current)
 {
     // Find out which direction we need to traverse to get to the current
     // node's proper position.
@@ -82,7 +108,7 @@ void BSTree::Insert( const Record& rec, node* current)
     if (rec >= current->data)               // Go to the right.
     {
         if (current->right_child != NULL)   // Continue to the right if possible
-            Insert(rec, current->right_child);
+            _Insert(rec, current->right_child);
         else                                // Correct spot has been found.
             current->right_child = new node(rec);
     }
@@ -90,71 +116,51 @@ void BSTree::Insert( const Record& rec, node* current)
     else // rec < current->data. Go to the left.
     {
         if (current->left_child != NULL)
-            Insert(rec, current->left_child);
+            _Insert(rec, current->left_child);
         else
             current->left_child = new node(rec);
     }
 }
 
-void BSTree::InOrderTraversal ( void (*operate) (const Record&))
-{
-    if ( !IsEmpty() )
-        InOrderTraversal( operate, root);
-}
-void BSTree::InOrderTraversal ( void (*operate) (const Record&), node* current)
+void BSTree::_InOrderTraversal ( void (*operate) (const Record&), node* current)
 {
     if (current->left_child)
-        InOrderTraversal(operate, current->left_child);
+        _InOrderTraversal(operate, current->left_child);
 
     operate (root->data);
 
     if (current->right_child)
-        InOrderTraversal(operate, current->right_child);
+        _InOrderTraversal(operate, current->right_child);
 }
 
-void BSTree::PreOrderTraversal ( void (*operate) (const Record&))
-{
-    if ( !IsEmpty() )
-        PreOrderTraversal(operate, root);
-}
-
-void BSTree::PreOrderTraversal ( void(*operate) (const Record&), node* current)
+void BSTree::_PreOrderTraversal ( void(*operate) (const Record&), node* current)
 {
     operate (current->data);
+
     if (current->left_child)
-        PreOrderTraversal(operate, current->left_child);
+        _PreOrderTraversal(operate, current->left_child);
     if (current->right_child)
-        PreOrderTraversal(operate, current->right_child);
+        _PreOrderTraversal(operate, current->right_child);
 }
 
-void BSTree::PostOrderTraversal ( void (*operate) (const Record&))
-{
-    if ( !IsEmpty() )
-        PostOrderTraversal(operate, root);
-}
-
-void BSTree::PostOrderTraversal( void (*operate) (const Record&), node* current)
+void BSTree::_PostOrderTraversal( void (*operate) (const Record&), node* current)
 {
     if (current->left_child)
-        PostOrderTraversal(operate, current->left_child);
+        _PostOrderTraversal(operate, current->left_child);
     if (current->right_child)
-        PostOrderTraversal(operate, current->right_child);
+        _PostOrderTraversal(operate, current->right_child);
+
     operate(current->data);
 }
 
-unsigned BSTree::Depth ( void ) const
+unsigned BSTree::_Depth(node* current) const
 {
-    if ( IsEmpty() ) return 0;
-    else return Depth(root);
-}
-
-unsigned BSTree::Depth(node* current) const
-{
-    if (current == NULL) return 0;
+    if (current == NULL)
+        return 0;
     else
     {
-        int left_depth = Depth(current->left_child);
-        int right_depth = Depth(current->right_child);
+        int left_depth = _Depth(current->left_child);
+        int right_depth = _Depth(current->right_child);
         return ( (left_depth > right_depth) ? left_depth + 1 : right_depth + 1 );
     }
 }

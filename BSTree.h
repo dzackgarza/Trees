@@ -2,14 +2,13 @@
 
     Zack Garza
     CISP 430 - TTH 5:30 pm
-    Programming Project 5 - Trees
+    Programming Project 5 - Binary Search Tree
     28 October 2013
 
 *****************************************************/
 #ifndef TREES_H
 #define TREES_H
-//#define Record STRING
-//#define KeyType STRING
+
 #include <stddef.h>
 #include "MYSTRING.h"
 #include "Record.h"
@@ -23,11 +22,15 @@
 class BSTree {
     struct node
     {
+        // Create a node and assign its children.
         node(Record rec, node* l, node* r) : data(rec), left_child(l), right_child(r) {}
+        // Create a node and auto-set children to NULL.
         node(Record rec) : data(rec), left_child(NULL), right_child(NULL) {}
 
         Record data;
+        // Left < Parent
         node* left_child;
+        // Right >= Parent
         node* right_child;
     };
     node* root;
@@ -78,20 +81,22 @@ class BSTree {
     //       If key is not in the tree, does nothing.
     void Delete (const KeyType& key);
 
+
+    /** Helper Functions **/
     private:
 
-    void Delete_tree (node* current);
+    void _Destroy (node* current);
 
-    Record Find ( const KeyType& key, node* current ) const;
+    Record _Find ( const KeyType& key, node* current ) const;
 
-    void Insert(const Record&, node*);
+    void _Insert(const Record&, node*);
 
-    void InOrderTraversal ( void (*) (const Record&), node*);
+    void _InOrderTraversal ( void (*) (const Record&), node*);
 
-    void PreOrderTraversal ( void (*) (const Record&), node*);
+    void _PreOrderTraversal ( void (*) (const Record&), node*);
 
-    void PostOrderTraversal ( void (*) (const Record&), node*);
+    void _PostOrderTraversal ( void (*) (const Record&), node*);
 
-    unsigned Depth(node*) const;
+    unsigned _Depth(node*) const;
 };
 #endif
